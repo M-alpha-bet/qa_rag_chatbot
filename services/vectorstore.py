@@ -1,6 +1,6 @@
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 
 
 def chunk_text(docs):
@@ -8,11 +8,6 @@ def chunk_text(docs):
     return text_splitter.split_documents(docs)
 
 
-def init_chroma_store(chunks):
-    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-    vectorstore = Chroma.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        persist_directory="./chroma_store"
-    )
-    return vectorstore
+def init_faiss_store(docs):
+    embeddings = OpenAIEmbeddings()
+    return FAISS.from_documents(docs, embeddings)

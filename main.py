@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 from services.news import fetch_crypto_news, load_and_preprocess
-from services.vectorstore import chunk_text, init_chroma_store
+from services.vectorstore import chunk_text, init_faiss_store
 from services.qa import answer_query
 
 
@@ -26,7 +26,7 @@ Welcome! This chatbot answers questions about cryptocurrency using AI + my conte
             
 This is a demo project, the context can be a dedicated knowledge base to your own company documents etc.
 
-It uses **LangChain**, **Chroma** (vector DB), and **OpenAI** to fetch relevant crypto info 
+It uses **LangChain**, **Faiss** (vector DB), and **OpenAI** to fetch relevant crypto info 
 and provide intelligent answers.
 """)
 
@@ -36,7 +36,7 @@ def init_store():
     fetch_crypto_news()
     articles = load_and_preprocess()
     chunks = chunk_text(articles)
-    return init_chroma_store(chunks)
+    return init_faiss_store(chunks)
 
 
 if "vectorstore" not in st.session_state:
@@ -74,7 +74,7 @@ if prompt := st.chat_input("Ask me anything about crypto..."):
             response = answer_query(st.session_state.vectorstore, prompt)
 
         # stream with typewriter effect
-        typewriter(response, delay=0.05, by="word")
+        typewriter(response, delay=0.01, by="letter")
 
     # Save assistant reply
     st.session_state.chat_history.append(

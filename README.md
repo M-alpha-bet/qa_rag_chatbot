@@ -2,7 +2,7 @@ This is a demo project for a chatbot that answers crypto questions using AI + my
 
 This is a demo project, the context can be a dedicated knowledge base to your own company documents etc.
 
-It uses **LangChain**, **Chroma** (vector DB), and **OpenAI** to fetch relevant crypto info
+It uses **LangChain**, **Faiss** (vector DB), and **OpenAI** to fetch relevant crypto info
 and provide intelligent answers.
 
 ## Installation

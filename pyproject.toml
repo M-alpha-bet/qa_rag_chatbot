@@ -10,6 +10,7 @@ dependencies = [
     "fastapi>=0.116.1",
     "langchain>=0.3.27",
     "langchain-chroma>=0.2.5",
+    "langchain-community>=0.3.29",
     "langchain-openai>=0.3.32",
     "numpy>=2.3.2",
     "openai>=1.102.0",
