@@ -33,6 +33,16 @@ def load_and_preprocess():
     with open("data/news.json", "r", encoding="utf-8") as f:
         raw_data = json.load(f)
 
+    print("RAW API RESPONSE:", raw_data)
+
+    if "results" not in raw_data:
+        error_msg = raw_data.get("info", "Unknown API error")
+        return [Document(
+            page_content=f"⚠️ Failed to fetch fresh crypto news.\nReason: {error_msg}",
+            metadata={"source": "cryptopanic",
+                "status": raw_data.get("status", "error")}
+        )]
+
     docs = []
     for item in raw_data["results"]:
         title = clean_text(item.get("title") or "")
@@ -41,7 +51,6 @@ def load_and_preprocess():
         id = item.get("id", "")
 
         text = f"{title}\n{description}\nSource: https://cryptopanic.com/news/{id}/{url}"
-        if text.strip():
-            docs.append(Document(page_content=text.strip(),
-                                 metadata={"id": id, "title": title}))
+        docs.append(Document(page_content=text.strip(),
+                             metadata={"id": id, "title": title}))
     return docs
